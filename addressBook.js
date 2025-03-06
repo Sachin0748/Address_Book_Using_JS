@@ -27,25 +27,11 @@ class Contact {
       this.email = email;
   }
 
-  validateName(name) {
-      return /^[A-Z][a-zA-Z]{2,}$/.test(name);
-  }
-
-  validateAddress(value) {
-      return /^[a-zA-Z0-9\s]{4,}$/.test(value);
-  }
-
-  validateZip(zip) {
-      return /^[1-9][0-9]{5}$/.test(zip);
-  }
-
-  validatePhone(phone) {
-      return /^[6-9][0-9]{9}$/.test(phone);
-  }
-
-  validateEmail(email) {
-      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-  }
+  validateName = (name) => /^[A-Z][a-zA-Z]{2,}$/.test(name);
+  validateAddress = (value) => /^[a-zA-Z0-9\s]{4,}$/.test(value);
+  validateZip = (zip) => /^[1-9][0-9]{5}$/.test(zip);
+  validatePhone = (phone) => /^[6-9][0-9]{9}$/.test(phone);
+  validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
   displayContact() {
       return `${this.firstName} ${this.lastName}, ${this.address}, ${this.city}, ${this.state} - ${this.zip}, Phone: ${this.phoneNumber}, Email: ${this.email}`;
@@ -64,9 +50,7 @@ class AddressBook {
   }
 
   // UC4: Find and Edit a Contact by Name
-  findContact(firstName, lastName) {
-      return this.contacts.find(contact => contact.firstName === firstName && contact.lastName === lastName);
-  }
+  findContact = (firstName, lastName) => this.contacts.find(contact => contact.firstName === firstName && contact.lastName === lastName);
 
   editContact(firstName, lastName, newDetails) {
       let contact = this.findContact(firstName, lastName);
@@ -81,24 +65,15 @@ class AddressBook {
 
   // UC5: Delete a Contact by Name
   deleteContact(firstName, lastName) {
-      let index = this.contacts.findIndex(contact => contact.firstName === firstName && contact.lastName === lastName);
-      if (index !== -1) {
-          this.contacts.splice(index, 1);
-      }
+      this.contacts = this.contacts.filter(contact => contact.firstName !== firstName || contact.lastName !== lastName);
   }
 
   // UC6: Count Contacts in the Address Book
-  countContacts() {
-      return this.contacts.length;
-  }
+  countContacts = () => this.contacts.length;
 
   // UC7: Prevent Duplicate Entries Based on First & Last Name
   addContactWithDuplicateCheck(contact) {
-      const isDuplicate = this.contacts.some(
-          (c) => c.firstName === contact.firstName && c.lastName === contact.lastName
-      );
-
-      if (!isDuplicate) {
+      if (!this.contacts.some(c => c.firstName === contact.firstName && c.lastName === contact.lastName)) {
           this.contacts.push(contact);
       }
   }
@@ -133,6 +108,12 @@ class AddressBook {
       return { countByCity, countByState };
   }
 
+  // UC11: Sort Contacts Alphabetically by Name
+  sortByName() {
+      this.contacts.sort((a, b) => a.firstName.localeCompare(b.firstName));
+  }
+
+  // Display All Contacts
   displayContacts() {
       this.contacts.forEach((contact, index) => {
           console.log(`${index + 1}. ${contact.displayContact()}`);
