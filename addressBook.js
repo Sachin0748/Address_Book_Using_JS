@@ -93,3 +93,26 @@ try {
 } catch (error) {
   console.error("Error:", error.message);
 }
+// UC3
+class AddressBookManager {
+  constructor() {
+      this.addressBooks = [];
+  }
+
+  createAddressBook(name) {
+      var newBook = new AddressBook(name);
+      this.addressBooks.push(newBook);
+      console.log("New Address Book '" + name + "' created.");
+  }
+
+  getAddressBook(name) {
+      return this.addressBooks.find(book => book.name === name);
+  }
+
+  displayAllAddressBooks() {
+      console.log("Existing Address Books:");
+      for (var i = 0; i < this.addressBooks.length; i++) {
+          console.log((i + 1) + ". " + this.addressBooks[i].name);
+      }
+  }
+}
