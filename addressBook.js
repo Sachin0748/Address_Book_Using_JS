@@ -159,6 +159,11 @@ class AddressBookWithEdit extends AddressBook {
           console.log("Contact not found!");
       }
   }
+      // UC6: Count the number of contacts in the address book
+      countContacts() {
+          return this.contacts.length;
+      }
+  
 
 }
  
