@@ -1,6 +1,4 @@
-// UC1 and UC2: Create a Address Book and Contact, and validate details
-
-// Contact.js
+// UC1: Create Contact Class with Validations
 class Contact {
   constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
       if (!this.validateName(firstName) || !this.validateName(lastName)) {
@@ -10,13 +8,13 @@ class Contact {
           throw new Error("Address, City, and State should have at least 4 characters.");
       }
       if (!this.validateZip(zip)) {
-          throw new Error("Invalid Zip Code! It should be a 6-digit number.");
+          throw new Error("Invalid Zip Code. It should be a 6-digit number.");
       }
       if (!this.validatePhone(phoneNumber)) {
-          throw new Error("Invalid Phone Number! It should be a 10-digit number.");
+          throw new Error("Invalid Phone Number. It should be a 10-digit number.");
       }
       if (!this.validateEmail(email)) {
-          throw new Error("Invalid Email Format!");
+          throw new Error("Invalid Email Format.");
       }
 
       this.firstName = firstName;
@@ -50,120 +48,65 @@ class Contact {
   }
 
   displayContact() {
-      return this.firstName + " " + this.lastName + ", " + 
-             this.address + ", " + this.city + ", " + 
-             this.state + " - " + this.zip + ", Phone: " + 
-             this.phoneNumber + ", Email: " + this.email;
+      return this.firstName + " " + this.lastName + ", " + this.address + ", " + this.city + ", " +
+             this.state + " - " + this.zip + ", Phone: " + this.phoneNumber + ", Email: " + this.email;
   }
 }
 
-// AddressBook.js
+// UC2: Create AddressBook Class to Store Multiple Contacts
 class AddressBook {
   constructor() {
       this.contacts = [];
   }
 
+  // UC3: Add Multiple Contacts
   addContact(contact) {
       this.contacts.push(contact);
-      console.log("Contact added successfully!");
   }
 
-  displayContacts() {
-      for (var i = 0; i < this.contacts.length; i++) {
-          console.log((i + 1) + ". " + this.contacts[i].displayContact());
-      }
-  }
-}
-
-// Example Usage with Valid Data
-try {
-  var myAddressBook = new AddressBook();
-  var contact1 = new Contact("Raj", "Sharma", "123 Street", "Bhopal", "MP", "123456", "9876543210", "rajsharma@example.com");
-
-  myAddressBook.addContact(contact1);
-  myAddressBook.displayContacts();
-} catch (error) {
-  console.error("Error:", error.message);
-}
-
-//Example Usage with Invalid Data 
-try {
-  var contact2 = new Contact("ra", "ua", "12 St", "NY", "CA", "12345", "98765432", "invalidemail.com");
-  myAddressBook.addContact(contact2);
-} catch (error) {
-  console.error("Error:", error.message);
-}
-
-
-// UC3: Manage Multiple Address Books
-class AddressBookManager {
-  constructor() {
-      this.addressBooks = [];
-  }
-
-  // Create a new Address Book
-  createAddressBook(name) {
-      var newBook = new AddressBook(name);
-      this.addressBooks.push(newBook);
-      console.log("New Address Book '" + name + "' created.");
-  }
-
-  // Get an Address Book by name
-  getAddressBook(name) {
-      return this.addressBooks.find(book => book.name === name);
-  }
-
-  // Display all existing Address Books
-  displayAllAddressBooks() {
-      console.log("Existing Address Books:");
-      for (var i = 0; i < this.addressBooks.length; i++) {
-          console.log((i + 1) + ". " + this.addressBooks[i].name);
-      }
-  }
-}
-
-
-//UC4: Find and Edit a Contact in Address Book
-class AddressBookWithEdit extends AddressBook {
-  constructor(name) {
-      super(name);
-  }
-
-  // Find Contact by First & Last Name
+  // UC4: Find and Edit a Contact by Name
   findContact(firstName, lastName) {
       return this.contacts.find(contact => contact.firstName === firstName && contact.lastName === lastName);
   }
 
-  // Edit an existing contact
   editContact(firstName, lastName, newDetails) {
-      var contact = this.findContact(firstName, lastName);
+      let contact = this.findContact(firstName, lastName);
       if (contact) {
-          for (var key in newDetails) {
+          Object.keys(newDetails).forEach(key => {
               if (contact.hasOwnProperty(key)) {
                   contact[key] = newDetails[key];
               }
-          }
-          console.log("Contact updated successfully!");
-      } else {
-          console.log("Contact not found!");
+          });
       }
   }
-  
-  // UC5: Find a Contact by Name and Delete It
+
+  // UC5: Delete a Contact by Name
   deleteContact(firstName, lastName) {
-      var index = this.contacts.findIndex(contact => contact.firstName === firstName && contact.lastName === lastName);
+      let index = this.contacts.findIndex(contact => contact.firstName === firstName && contact.lastName === lastName);
       if (index !== -1) {
           this.contacts.splice(index, 1);
-          console.log("Contact deleted successfully!");
-      } else {
-          console.log("Contact not found!");
       }
   }
-      // UC6: Count the number of contacts in the address book
-      countContacts() {
-          return this.contacts.length;
-      }
-  
 
+  // UC6: Count Contacts in the Address Book
+  countContacts() {
+      return this.contacts.length;
+  }
+
+  // UC7: Prevent Duplicate Entries Based on First & Last Name
+  addContactWithDuplicateCheck(contact) {
+      const isDuplicate = this.contacts.some(
+          (c) => c.firstName === contact.firstName && c.lastName === contact.lastName
+      );
+
+      if (!isDuplicate) {
+          this.contacts.push(contact);
+      }
+  }
+
+  displayContacts() {
+      this.contacts.forEach((contact, index) => {
+          console.log((index + 1) + ". " + contact.displayContact());
+      });
+  }
 }
- 
