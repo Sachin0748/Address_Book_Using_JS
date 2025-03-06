@@ -48,8 +48,7 @@ class Contact {
   }
 
   displayContact() {
-      return this.firstName + " " + this.lastName + ", " + this.address + ", " + this.city + ", " +
-             this.state + " - " + this.zip + ", Phone: " + this.phoneNumber + ", Email: " + this.email;
+      return `${this.firstName} ${this.lastName}, ${this.address}, ${this.city}, ${this.state} - ${this.zip}, Phone: ${this.phoneNumber}, Email: ${this.email}`;
   }
 }
 
@@ -104,14 +103,24 @@ class AddressBook {
       }
   }
 
-  // UC8: Search for a Person in a Particular City or State
-  searchByCityOrState(city, state) {
-      return this.contacts.filter(contact => contact.city === city || contact.state === state);
+  // UC8: Search Person by City or State
+  searchPersonByCityOrState(name, location) {
+      return this.contacts.filter(contact =>
+          (contact.firstName === name || contact.lastName === name) &&
+          (contact.city === location || contact.state === location)
+      );
+  }
+
+  // UC9: View Persons by City or State
+  viewPersonsByCityOrState(location) {
+      return this.contacts
+          .filter(contact => contact.city === location || contact.state === location)
+          .map(contact => contact.displayContact());
   }
 
   displayContacts() {
       this.contacts.forEach((contact, index) => {
-          console.log((index + 1) + ". " + contact.displayContact());
+          console.log(`${index + 1}. ${contact.displayContact()}`);
       });
   }
 }
