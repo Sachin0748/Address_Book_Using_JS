@@ -1,4 +1,4 @@
-// UC1 and UC2 combined...
+// UC1 and UC2: Create a Address Book and Contact, and validate details
 
 // Contact.js
 class Contact {
@@ -78,7 +78,7 @@ class AddressBook {
 // Example Usage with Valid Data
 try {
   var myAddressBook = new AddressBook();
-  var contact1 = new Contact("John", "Doe", "123 Street", "CityX", "StateY", "123456", "9876543210", "john@example.com");
+  var contact1 = new Contact("Raj", "Sharma", "123 Street", "Bhopal", "MP", "123456", "9876543210", "rajsharma@example.com");
 
   myAddressBook.addContact(contact1);
   myAddressBook.displayContacts();
@@ -93,26 +93,59 @@ try {
 } catch (error) {
   console.error("Error:", error.message);
 }
-// UC3
+
+
+// UC3: Manage Multiple Address Books
 class AddressBookManager {
   constructor() {
       this.addressBooks = [];
   }
 
+  // Create a new Address Book
   createAddressBook(name) {
       var newBook = new AddressBook(name);
       this.addressBooks.push(newBook);
       console.log("New Address Book '" + name + "' created.");
   }
 
+  // Get an Address Book by name
   getAddressBook(name) {
       return this.addressBooks.find(book => book.name === name);
   }
 
+  // Display all existing Address Books
   displayAllAddressBooks() {
       console.log("Existing Address Books:");
       for (var i = 0; i < this.addressBooks.length; i++) {
           console.log((i + 1) + ". " + this.addressBooks[i].name);
+      }
+  }
+}
+
+
+//UC4: Find and Edit a Contact in Address Book
+class AddressBookWithEdit extends AddressBook {
+  constructor(name) {
+      super(name);
+  }
+
+  // Find Contact by First & Last Name
+  findContact(firstName, lastName) {
+      return this.contacts.find(contact => contact.firstName === firstName && contact.lastName === lastName);
+  }
+
+  // Edit an existing contact
+  editContact(firstName, lastName, newDetails) {
+      var contact = this.findContact(firstName, lastName);
+      if (contact) {
+          for (var key in newDetails) {
+              if (contact.hasOwnProperty(key)) {
+                  contact[key] = newDetails[key];
+              }
+          }
+          console.log("Contact updated successfully!");
+      } else {
+          console.log("Contact not found!");
       }
   }
 }
