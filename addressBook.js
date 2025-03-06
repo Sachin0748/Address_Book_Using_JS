@@ -104,6 +104,11 @@ class AddressBook {
       }
   }
 
+  // UC8: Search for a Person in a Particular City or State
+  searchByCityOrState(city, state) {
+      return this.contacts.filter(contact => contact.city === city || contact.state === state);
+  }
+
   displayContacts() {
       this.contacts.forEach((contact, index) => {
           console.log((index + 1) + ". " + contact.displayContact());
