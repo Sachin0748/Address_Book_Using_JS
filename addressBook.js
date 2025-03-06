@@ -118,6 +118,21 @@ class AddressBook {
           .map(contact => contact.displayContact());
   }
 
+  // UC10: Count Contacts by City or State
+  countContactsByCityOrState() {
+      const countByCity = this.contacts.reduce((acc, contact) => {
+          acc[contact.city] = (acc[contact.city] || 0) + 1;
+          return acc;
+      }, {});
+
+      const countByState = this.contacts.reduce((acc, contact) => {
+          acc[contact.state] = (acc[contact.state] || 0) + 1;
+          return acc;
+      }, {});
+
+      return { countByCity, countByState };
+  }
+
   displayContacts() {
       this.contacts.forEach((contact, index) => {
           console.log(`${index + 1}. ${contact.displayContact()}`);
