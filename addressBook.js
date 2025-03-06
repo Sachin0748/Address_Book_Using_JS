@@ -148,4 +148,17 @@ class AddressBookWithEdit extends AddressBook {
           console.log("Contact not found!");
       }
   }
+  
+  // UC5: Find a Contact by Name and Delete It
+  deleteContact(firstName, lastName) {
+      var index = this.contacts.findIndex(contact => contact.firstName === firstName && contact.lastName === lastName);
+      if (index !== -1) {
+          this.contacts.splice(index, 1);
+          console.log("Contact deleted successfully!");
+      } else {
+          console.log("Contact not found!");
+      }
+  }
+
 }
+ 
