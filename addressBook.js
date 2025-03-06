@@ -1,4 +1,4 @@
-// UC1: Create Contact Class with Validations
+// UC1 and UC2: Create Contact Class with Validations
 class Contact {
   constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
       if (!this.validateName(firstName) || !this.validateName(lastName)) {
@@ -38,13 +38,13 @@ class Contact {
   }
 }
 
-// UC2: Create AddressBook Class to Store Multiple Contacts
+// UC3: Create AddressBook Class to Store Multiple Contacts
 class AddressBook {
   constructor() {
       this.contacts = [];
   }
 
-  // UC3: Add Multiple Contacts
+  //Add Multiple Contacts
   addContact(contact) {
       this.contacts.push(contact);
   }
@@ -111,6 +111,30 @@ class AddressBook {
   // UC11: Sort Contacts Alphabetically by Name
   sortByName() {
       this.contacts.sort((a, b) => a.firstName.localeCompare(b.firstName));
+  }
+
+  // Display All Contacts
+  displayContacts() {
+      this.contacts.forEach((contact, index) => {
+          console.log(`${index + 1}. ${contact.displayContact()}`);
+      });
+  }
+  // UC11: Sort Contacts Alphabetically by Name
+  sortByName() {
+      this.contacts.sort((a, b) => a.firstName.localeCompare(b.firstName));
+  }
+
+  // UC12: Sort Contacts by City, State, or Zip
+  sortByCity() {
+      this.contacts.sort((a, b) => a.city.localeCompare(b.city));
+  }
+
+  sortByState() {
+      this.contacts.sort((a, b) => a.state.localeCompare(b.state));
+  }
+
+  sortByZip() {
+      this.contacts.sort((a, b) => a.zip - b.zip);
   }
 
   // Display All Contacts
